@@ -1,0 +1,91 @@
+<!doctype html>
+
+{% load static %}
+
+<html lang="en">
+  <head>
+    <title>Create a Memo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+    <script src="{% static 'js/index.js' %}" type="text/javascript"></script>
+
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="col-6 offset-md-3">
+        <hr>
+        <center><h3>Create a Memo</h3></center>
+        <hr>
+      </div>
+    </div>
+    <br><br>
+    <div class="row">
+      <div class="col-6 offset-md-3">
+        <div class="bootstrap-iso">
+          <form onsubmit="return create_memo(this);" method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            <div class="form-group row">
+              <label for="memo-notes">Notes</label>
+              <textarea class="form-control" id="memo-notes" rows="5" name="memo_notes"></textarea>
+            </div>
+            <br>
+
+            <div class="form-group row">
+              <label for="memo-image">Attach an image:</label>
+              <div class="col-sm-6">
+                <input type="file" class="form-control-file" id="memo-image" accept="image/*" name="memo_image">
+              </div>
+            </div>
+
+            <br>
+            <div class="col-xs-6">
+              <div class="form-group row"> <!-- Date input -->
+                <label class="control-label" for="memo-date">Date:</label>
+                <div class="col-sm-6">
+                  <input class="form-control" id="memo-date" name="memo_date" placeholder="MM/DD/YYY" type="text"/>
+                </div>
+              </div>
+            </div>
+
+            <br>
+            <div class="form-group row">
+              <label for="memo-with">With:</label>
+              <div class="col-sm-6">
+                <input type="text" class="form-control" id="memo-with" name="memo_with"></input>
+              </div>
+            </div>
+
+            <br>
+
+            <div class="row">
+              <div class="alert alert-danger" role="alert" id="form_error">
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="alert alert-success" role="alert" id="form_success">
+              </div>
+            </div>
+
+            <div class="row">
+              <button type="submit" class="btn btn-primary">Create</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
