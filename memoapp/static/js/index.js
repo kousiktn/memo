@@ -12,22 +12,44 @@ function readFile(image_file, callback) {
   }
 }
 
+function hide_all_messages() {
+  var error = $('#form_error');
+  var success = $('#form_success');
+
+  success.hide();
+  error.hide();
+}
+
+function show_success(msg) {
+  var error = $('#form_error');
+  error.hide();
+
+  var success = $('#form_success');
+  success.html(msg);
+  success.show();
+}
+
+function show_error(msg) {
+  var success = $('#form_success');
+  success.hide();
+
+  var error = $('#form_error');
+  error.html(msg);
+  error.show();
+}
+
 function create_memo(theForm) {
+  hide_all_messages();
+
   var notes = theForm.memo_notes.value;
   var notes_with = theForm.memo_with.value;
   var notes_date = theForm.memo_date.value;
   var image_file = theForm.memo_image.files[0];
 
   readFile(image_file, function(image_file_content) {
-    var error = $('#form_error');
-    var success = $('#form_success');
     if (!(notes || image_file_content)) {
-      error.html(
-        'Error! You should either provide Notes or Attach an Image'
-      );
-      error.show();
+      show_error('Error! You should either provide Notes or Attach an Image');
     } else {
-      error.hide();
       var data = {
         "memo-notes": notes,
         "memo-image": image_file_content,
@@ -41,14 +63,11 @@ function create_memo(theForm) {
         url: '/create-memo',
         data: data,
         success: function() {
-          error.hide();
-          success.html("Memo created!");
-          success.show();
+          show_success('Memo created!');
+          theForm.reset();
         },
         error: function(e) {
-          success.hide();
-          error.html("Error: " + e.responseText);
-          error.show();
+          show_error("Error: " + e.responseText);
         }
       });
     }
@@ -57,10 +76,7 @@ function create_memo(theForm) {
 }
 
 $(document).ready(function() {
-  var error = $('#form_error');
-  var success = $('#form_success');
-  error.hide();
-  success.hide();
+  hide_all_messages();
 
   var date_input=$('#memo-date'); //our date input has the name "date"
   var d = new Date();

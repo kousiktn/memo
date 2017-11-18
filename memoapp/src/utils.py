@@ -30,3 +30,13 @@ def upload_to_s3(image):
 	)
 
 	return file_name
+
+def get_signed_url(s3_path):
+	return s3_client.generate_presigned_url(
+		ClientMethod='get_object',
+		Params={
+			'Bucket': settings.S3_BUCKET,
+			'Key': s3_path,
+		},
+		ExpiresIn=1800,
+	)
