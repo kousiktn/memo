@@ -9,7 +9,7 @@ from src.models import Memo
 class SearchTrieNode(object):
 	__slots__ = ('children', 'character', 'memo_ids')
 
-root = SearchTrieNode()
+root = SearchTrieNode() # Inmemory Trie object
 root.children = {}
 root.character = None
 root.memo_ids = []
@@ -50,6 +50,9 @@ def process_note(note, memo_id):
 			process_word(word, memo_id)
 
 def index_notes():
+	'''
+		Indexes all the notes to the in-memory trie
+	'''
 	all_memos = Memo.objects.all()
 	for memo in all_memos:
 		if not cache.get(memo.id):
@@ -57,8 +60,10 @@ def index_notes():
 			cache.set(memo.id, True)
 
 def get_memos_containing_word(word):
+	'''
+		Search utility to list all memos containing a particular search word
+	'''
 	index_notes()
-
 	cur_node = root
 	for character in word:
 		if not character in cur_node.children:

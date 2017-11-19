@@ -21,6 +21,15 @@ def index(request):
 
 @require_POST
 def create_memo(request):
+	'''
+		This function creates a new memo
+		(memo_image/memo_notes) and memo_date are mandatory parameters
+
+		memo_image can't exceed 2MB
+		memo_notes can't exceed 100KB
+
+		memo_with is an optional parameter to say who the meeting attendees were
+	'''
 	memo_image = request.POST.get('memo-image') or ''
 	memo_notes = request.POST.get('memo-notes') or ''
 	memo_with = request.POST.get('memo-with') or ''
@@ -49,7 +58,7 @@ def create_memo(request):
 		memo_obj.meeting_with.add(*memo_with_users)
 
 	try:
-		# Assuming single threaded - gotta change if we are multi-threaded
+		# Assuming single process/worker for now - gotta change if we are multi-threaded
 		index_notes()
 	except:
 		pass
@@ -57,6 +66,9 @@ def create_memo(request):
 	return HttpResponse('Created')
 
 def _get_datewise_sorted_memo_previews(all_memos):
+	'''
+		Given a list of memos this function nicely formats each one of them into a preview-like format
+	'''
 	datewise_memos = {}
 	for memo in all_memos:
 		note_preview = memo.meeting_notes[:constants.TRIM_LENGTH] if memo.meeting_notes else ''
@@ -84,12 +96,20 @@ def _get_datewise_sorted_memo_previews(all_memos):
 
 @require_GET
 def history(request):
+	'''
+		View function for history page
+	'''
 	all_memos = Memo.objects.all()
 	sorted_datewise_memos = _get_datewise_sorted_memo_previews(all_memos)
 	return render(request, 'history.html', context={'memos': sorted_datewise_memos})
 
 @require_GET
 def get_memo(request, memo_id):
+	'''
+		View function to get details about a single memo
+		If we get more requirements like this and the app has multiple models, should
+		probably consider using Django Rest Framework.
+	'''
 	memo = Memo.objects.get(id=memo_id)
 
 	image_signed_url = get_signed_url(memo.image_path) if memo.image_path else ''
@@ -103,10 +123,19 @@ def get_memo(request, memo_id):
 
 @require_GET
 def search_page(request):
+	'''
+		Search page - pretty basic
+	'''
 	return render(request, 'search.html')
 
 @require_GET
 def search(request):
+	'''
+		Search api
+		It mandates that any one of the search parameters be given
+
+		Limits results to a max value(look at constants)
+	'''
 	date = request.GET.get('date')
 	attendees = request.GET.get('with')
 	contains = request.GET.get('contains')

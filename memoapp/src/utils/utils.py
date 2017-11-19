@@ -13,6 +13,9 @@ s3_client = boto3.client(
 )
 
 def upload_to_s3(image):
+	'''
+		Upload the given image to S3
+	'''
 	image = image.encode('latin-1')
 	mime = magic.from_buffer(image, mime=True)
 	file_extension = mime.split('/')[1]
@@ -32,6 +35,9 @@ def upload_to_s3(image):
 	return file_name
 
 def get_signed_url(s3_path):
+	'''
+		Get a signed URL that's valid for a temporary time period for the given S3 path
+	'''
 	return s3_client.generate_presigned_url(
 		ClientMethod='get_object',
 		Params={
