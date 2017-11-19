@@ -88,6 +88,7 @@ $(document).ready(function() {
     container: container,
     todayHighlight: true,
     autoclose: true,
+    orientation: 'top right',
   };
 
   date_input.datepicker(options);

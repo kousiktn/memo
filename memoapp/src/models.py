@@ -7,7 +7,7 @@ from django.db import models
 
 
 class Users(models.Model):
-	name = models.CharField(max_length=50)
+	name = models.CharField(max_length=50, db_index=True)
 
 # Create your models here.
 class Memo(models.Model):
