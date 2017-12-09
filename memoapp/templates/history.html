@@ -37,7 +37,7 @@
           <h3 class="card-header">Date: {{ date }}</h3>
           {% for memo in memos_on_date %}
             <br>
-            <div class="card-block col-10 offset-md-1" onclick="show_memo({{ memo.id }})">
+            <div class="card-block col-10 offset-md-1" onclick="show_memo('{{ memo.id }}')">
               <div class="card">
                 {% if memo.image %}
                   <img class="card-img-top" src="{{ memo.image }}" />

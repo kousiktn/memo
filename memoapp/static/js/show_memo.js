@@ -1,13 +1,13 @@
 function show_memo(memo_id) {
 	$.ajax({
 		type: 'GET',
-		url: `/get-memo/${memo_id}`,
+		url: `/get-memo/?id=${memo_id}`,
 		success: function(memo) {
 			$('#modal-title').html(`Memo on ${memo.date}`);
 			var modal_body = '';
 			const has_image = Boolean(memo.image);
 			const has_notes = Boolean(memo.notes);
-			const has_attendees = Boolean(memo.with.length);
+			const has_attendees = Boolean(memo.with) && Boolean(memo.with.length);
 			if (has_image) {
 				modal_body += `<img src=${memo.image} style="max-width: 100%; max-height: 100%;"></img><br><br>`;
 			}
