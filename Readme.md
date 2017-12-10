@@ -16,6 +16,7 @@ All of the backend code goes into the `src/` folder.
 `models.py` contains the data models
 
 All `notes` are stored as blobs on S3 bucket. This app does not use any relational database. It also doesn't have the concept of users(for now)
+
 ----
 
 #### Why does my JS look like sphagetti?
@@ -25,6 +26,7 @@ Oh four reasons:
 3. I'm lazy and didn't want to setup a single page app for a weekend project
 
 (Did I say four reasons? Did I also say I'm lazy?)
+
 ----
 
 ### Deploy(just so I don't forget)
