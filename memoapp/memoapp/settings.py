@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 ALLOWED_HOSTS = [
-    'qtpq28uyh5.execute-api.us-west-2.amazonaws.com'
+    'mugglebornprince.in',
 ]
 
 
@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'src',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -114,13 +115,15 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles/')
 
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static/'),
-)
-STATIC_URL = '/static/'
+AWS_STORAGE_BUCKET_NAME = 'memoapp-static'
+
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+
+STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
 ENV = os.environ.get('ENV')
 
@@ -128,6 +131,7 @@ S3_BUCKET = 'b-memoapp'
 S3_REGION = 'us-east-1'
 
 if not ENV:
-    from .local_settings import *
+    from memoapp.local_settings import *
 elif ENV == 'PROD':
-    from .prod_settings import *
+    from memoapp.prod_settings import *
+
