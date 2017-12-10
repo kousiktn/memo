@@ -10,13 +10,12 @@ from django.views.decorators.http import require_GET, require_POST
 
 from src import constants
 from src.models import Memo
-# from src.utils import (get_memos_containing_word, get_signed_url, index_notes, upload_to_s3)
 
-# memo_users = lambda memo: [user.name for user in memo.meeting_with.all()]
 
 @require_GET
 def index(request):
 	return render(request, 'index.html')
+
 
 @require_POST
 def create_memo(request):
@@ -108,49 +107,3 @@ def get_memo(request):
 		'date': memo.get_date().strftime('%d %b, %Y'),
 	}
 	return HttpResponse(json.dumps(res), content_type='application/json')
-
-# @require_GET
-# def search_page(request):
-# 	'''
-# 		Search page - pretty basic
-# 	'''
-# 	return render(request, 'search.html')
-
-# @require_GET
-# def search(request):
-# 	'''
-# 		Search api
-# 		It mandates that any one of the search parameters be given
-
-# 		Limits results to a max value(look at constants)
-# 	'''
-# 	date = request.GET.get('date')
-# 	attendees = request.GET.get('with')
-# 	contains = request.GET.get('contains')
-
-# 	if not (date or attendees or contains):
-# 		return HttpResponseBadRequest('Atleast one search parameter must be supplied')
-
-# 	list_of_attendees = []
-# 	for attendee in attendees.split(','):
-# 		attendee = attendee.strip()
-# 		list_of_attendees.append(attendee)
-
-# 	users = Users.objects.filter(name__in=list_of_attendees) if list_of_attendees else None
-# 	date = datetime.datetime.strptime(date, '%Y-%m-%d').date() if date else None
-
-# 	word_to_search = contains.split(' ')[0] # defense against bad input in case someone's meddling with the api
-# 	search_results = get_memos_containing_word(word_to_search) if word_to_search else Memo.objects.all()
-
-# 	if users:
-# 		search_results = search_results.filter(meeting_with__in=users)
-
-# 	if date:
-# 		search_results = search_results.filter(date=date)
-
-# 	if search_results.count() > constants.MAX_SEARCH_RESULTS:
-# 		return HttpResponseBadRequest('More than {} search results'.format(constants.MAX_SEARCH_RESULTS))
-
-# 	search_preview = _get_datewise_sorted_memo_previews(search_results)
-
-# 	return HttpResponse(json.dumps(search_preview), content_type='application/json')
