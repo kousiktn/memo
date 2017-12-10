@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "aws_region": "us-west-2", 
+        "django_settings": "memoapp.settings", 
+        "profile_name": "default", 
+        "project_name": "memoapp", 
+        "runtime": "python2.7", 
+        "s3_bucket": "memo-zappa"
+    }
+}
