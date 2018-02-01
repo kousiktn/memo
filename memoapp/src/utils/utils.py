@@ -1,7 +1,6 @@
 import hashlib
 
 import boto3
-import magic
 
 from memoapp import settings
 from src import constants

@@ -115,23 +115,23 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Static files related configuration
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles/')
-
 AWS_STORAGE_BUCKET_NAME = 'memoapp-static'
-
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
-
 STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
-
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 
+AWS_RESOURCES_REGION = 'us-west-2' # Generic region for all AWS resources
+
+# S3 related configuration - also look at stage(dev/prod) settings file
+S3_REGION = AWS_RESOURCES_REGION
+
 ENV = os.environ.get('ENV')
-
-S3_BUCKET = 'b-memoapp'
-S3_REGION = 'us-east-1'
-
 if not ENV:
     from memoapp.local_settings import *
+    S3_BUCKET = 'b-memoapp'
 elif ENV == 'PROD':
     from memoapp.prod_settings import *
+    S3_BUCKET = 'p-memoapp'
 
