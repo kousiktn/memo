@@ -15,7 +15,13 @@ Including another URLconf
 """
 
 from django.conf.urls import include, url
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
 	url(r'^', include('src.urls')),
 ]
+
+if not settings.ENV:
+	# local dev - add static files path
+	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

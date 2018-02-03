@@ -128,10 +128,10 @@ AWS_RESOURCES_REGION = 'us-west-2' # Generic region for all AWS resources
 S3_REGION = AWS_RESOURCES_REGION
 
 ENV = os.environ.get('ENV')
+
 if not ENV:
     from memoapp.local_settings import *
     S3_BUCKET = 'b-memoapp'
 elif ENV == 'PROD':
     from memoapp.prod_settings import *
     S3_BUCKET = 'p-memoapp'
-
