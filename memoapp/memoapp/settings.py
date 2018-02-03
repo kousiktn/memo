@@ -28,7 +28,6 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -121,6 +120,7 @@ AWS_STORAGE_BUCKET_NAME = 'memoapp-static'
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 AWS_RESOURCES_REGION = 'us-west-2' # Generic region for all AWS resources
 
@@ -131,6 +131,9 @@ ENV = os.environ.get('ENV')
 
 if not ENV:
     from memoapp.local_settings import *
+    S3_BUCKET = 'b-memoapp'
+elif ENV == 'BETA':
+    from memoapp.beta_settings import *
     S3_BUCKET = 'b-memoapp'
 elif ENV == 'PROD':
     from memoapp.prod_settings import *

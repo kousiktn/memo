@@ -1,6 +1,8 @@
 venv/
+*beta_settings.py*
 *local_settings.py*
 *prod_settings.py*
 *.sqlite3
 *.pyc
+staticfiles/
 
